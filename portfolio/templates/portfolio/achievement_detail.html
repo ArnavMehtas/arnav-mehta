@@ -1,0 +1,10 @@
+{% extends "portfolio/base.html" %}
+{% block content %}
+<section class="section">
+    <h2>{{ achievement.title }}</h2>
+    <p><strong>{{ achievement.date|date:"F Y" }}</strong></p>
+    <p>{{ achievement.description }}</p>
+
+    <a href="{% url 'index' %}#achievements">&larr; back to list</a>
+</section>
+{% endblock %}

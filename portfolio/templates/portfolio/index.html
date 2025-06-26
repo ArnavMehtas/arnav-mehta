@@ -1,0 +1,134 @@
+{% extends "portfolio/base.html" %}
+{% load static %}
+{% load custom_tags %}
+
+{% block content %}
+<section id="home" class="hero">
+    <div class="hero-content">
+        <h1 style="font-size: 58px;">{{ profile.name }}</h1>
+        <p>{{ profile.title }}</p>
+        
+        <!-- Optional decorative elements -->
+        <div class="hero-decoration">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="section">
+    <h2 class="section-title">About Me</h2>
+    <div class="about-content">
+        <div class="about-text">
+            <p>{{ profile.bio }}</p>
+        </div>
+    <div class="about-details">
+        <p><strong>Location:</strong> {{ profile.location }}</p>
+        <p><strong>Email:</strong> {{ profile.email }}</strong></p>
+    </div>
+    </div>
+</section>
+<section id="skills" class="section">
+    <h2 class="section-title">My Skills</h2>
+    {% for category, skills in skills_by_category.items %}
+    <div class="skill-category">
+        <h3>{{ category|title }}</h3>
+        <div class="skill-container">
+            {% for skill in skills %}
+            <div class="skill-item{% if skill.id|stringformat:"s" == selected_skill %} selected{% endif %}">
+            <a href="?skill={{ skill.id }}#projects">{{ skill.name }}</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</section>
+
+
+<section id="projects" class="section">
+    <h2 class = "section-title">My Projects</h2>
+<div class="project-grid">
+  {% for project in projects %}
+    <div class="project-item">
+      <img src="{{ project.image.url }}" alt="{{ project.title }}">
+      <div class="overlay">
+        <h3>{{ project.title }}</h3>
+        {% if project.github_url %}
+          <a href="{{ project.github_url }}" target="_blank">GitHub</a>
+        {% endif %}
+        {% if project.live_url %}
+          <a href="{{ project.live_url }}" target="_blank">View</a>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+</section>
+
+<section id="experience" class="section">
+    <h2 class="section-title">Experience</h2>
+    <div class="project-grid ">
+    {% for exp in experience %}
+    <div class="exp-item">
+        <h3>{{ exp.position }} at {{ exp.company }}</h3>
+        <p><strong>{{ exp.start_date|date:"F Y" }} – 
+            {% if exp.end_date %}{{ exp.end_date|date:"F Y" }}{% else %}Present{% endif %}</strong></p>
+        <p>{{ exp.description }}</p>
+
+
+
+        {% with full_key=exp.position|add:" at "|add:exp.company %}
+  {% if experience_links|get_item:full_key %}
+<a href="{{ experience_links|get_item:full_key }}" target="_blank" class="view-certificate-btn">
+  View Certificate
+</a>
+
+  {% endif %}
+{% endwith %}
+
+
+    </div>
+    {% endfor %}
+    </div>
+</section>
+
+<section id="education" class="section">
+    <h2 class="section-title">Education</h2>
+    {% for edu in education %}
+    <div class="edu-item">
+        <h3>{{ edu.degree }} - {{ edu.institution }}</h3>
+        <p><strong>Completed:</strong> {{ edu.year_completed|date:"Y" }}</p>
+        <p>{{ edu.description }}</p>
+    </div>
+    {% endfor %}
+</section>
+
+<section id="achievements" class="section">
+    <h2 class="section-title">Achievements</h2>
+    <div class="project-grid ">
+    {% for ach in achievements %}
+    <a href="{% url 'achievement_detail' ach.id %}" class="ach-link">
+  <div class="ach-item">
+      <h3>{{ ach.title }}</h3>
+      <p><strong>{{ ach.date|date:"F Y" }}</strong></p>
+        <p>{{ ach.description }}</p>
+        
+        {% if achievement_links|get_item:ach.title %}
+        <div class="certificate-container">
+            <a href="{{ achievement_links|get_item:ach.title }}" 
+               target="_blank" 
+               class="view-certificate-btn">
+              View Proof
+            </a>
+        </div>
+        {% endif %}  </div>
+</a>
+
+    {% endfor %}
+    </div>
+</section>
+
+
+{% endblock content %} 
+

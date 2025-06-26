@@ -1,0 +1,38 @@
+<nav class="vertical-nav">
+     <button class="navbar-toggle" aria-label="Toggle navigation">
+        <span class="toggle-icon"></span>
+    </button>
+
+    <div class="nav-content">
+    <div class="profile-section">
+        {% if profile.profile_pic %}
+        <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" class = "profile-img">
+        {% endif %}
+        <h1>{{ profile.name }}</h1>
+    </div>
+
+    <ul class="nav-links">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#experience" class="nav-link">Experience</a></li>
+        <li><a href="#education" class="nav-link">Education</a></li>
+        <li><a href="#achievements" class="nav-link">Achievements</a></li>
+        </ul>
+
+    <ul class="contact-icons">
+  {% if profile.linkedin %}
+    <li><a href="{{ profile.linkedin }}" target="_blank"
+           aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
+  {% endif %}
+  <li><a href="mailto:{{ profile.email }}" aria-label="Email">
+        <i class="fas fa-envelope"></i></a></li>
+  {% if profile.phone %}
+    <li><a href="tel:{{ profile.phone }}" aria-label="Call">
+        <i class="fas fa-phone"></i></a></li>
+  {% endif %}
+</ul>
+
+    </div>
+</nav>
